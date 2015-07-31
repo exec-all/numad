@@ -171,7 +171,8 @@ def main(argv=sys.argv[1:]):
 	with t.fullscreen():
 		with t.cbreak():
 			# this blank print statment forces blessings to go to 
-			# 'all screen' mode
+			# 'all screen' mode as it wont send output out stdout
+			# on its own
 			print(t.clear)
 			render_query_field(t, "")
 			render_search_results(t, [])
