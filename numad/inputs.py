@@ -10,10 +10,12 @@ import asyncio
 import sys
 
 def type_boost(doctype, boost_factor):
+	"""Helper function to boost results from particular data stores"""
 	return { "boost_factor": boost_factor, "filter": { "type": { "value": doctype } } }
 	
 @coroutine
 def search_loop(loop, es, question):
+	"""Perform a query against an elasticsearch cluster and clean up results"""
 	q_dict = {
 		"query": {
 			"function_score": {
@@ -35,8 +37,12 @@ def search_loop(loop, es, question):
 		},
     }
 
-#	answer = yield from es.search('', None, q=question, size=30, timeout=1)
-	answer = yield from es.search('', None, body=q_dict, size=30, timeout=1)
+	# Few people have large large screens so limit to 30 results to cut down
+	# on cycles spent
+	# Short timeouts as a new key press is likley before this is reached
+	# * is this actually sane??, we force kill queries anyway *
+#	answer = yield from es.search('', None, q=question, size=30, timeout=1) # lucene query
+	answer = yield from es.search('', None, body=q_dict, size=30, timeout=1) # ES query
 	
 	results = []
 
@@ -48,6 +54,12 @@ def search_loop(loop, es, question):
 
 @coroutine
 def input_loop(loop, term, buffer):
+	"""Wait for a key press, then emulate a basic readline() on a provided buffer and return the new buffer
+	
+	Currently understands the following key presses:
+	Backspace
+	Enter (noop)
+	"""
 
 	yield from wait_for_fd(sys.stdin)
 	
