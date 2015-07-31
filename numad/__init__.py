@@ -20,9 +20,7 @@ import os
 
 UMAD_INDEX="umad_domain"
 DOC_TYPE_ALL="_all"
-ES_SERVERS=[
-	"localhost:9200",
-	]
+DEFAULT_ES_SERVER = "localhost:9200"
 
 def type_boost(doctype, boost_factor):
 	return { "boost_factor": boost_factor, "filter": { "type": { "value": doctype } } }
@@ -171,6 +169,15 @@ def render_query_field(term, query):
 
 
 def main(argv=sys.argv[1:]):
+	from argparse import ArgumentParser
+	args = ArgumentParser()
+	args.add_argument("-s", "--servers", default=DEFAULT_ES_SERVER,
+		help='A list of elastic search servers seperated by "," against which to run queries (Default: %(default)s)')
+	
+	options = args.parse_args(argv)
+	
+	options.servers = [x.strip() for x in options.servers.split(",")]
+	
 	loop = asyncio.get_event_loop()
 	t = Terminal()
 	
