@@ -85,7 +85,7 @@ setup(
         ],
     platforms=None,
     url = "https://github.com/exec-all/numad",
-    entry_points = {"console_scripts":["numad=numad:main",],
+    entry_points = {"console_scripts":["numad=numad.cmd:main",],
                    },
 #    scripts = ['scripts/dosomthing'],
     zip_safe = True,
