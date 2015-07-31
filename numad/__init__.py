@@ -69,6 +69,12 @@ def input_loop(loop, term, buffer):
 	key = True
 	while key:
 		# blocking but with a short timeout
+		# as a nice side effect this will inhibit
+		# new searches that are likley to be retired
+		# before compleation due to typing quickly
+		#
+		# full effects still not fully understood 
+		# (may be causing input lag)
 		key = term.inkey(timeout=0.1)
 	
 		if key.name:
