@@ -24,10 +24,6 @@ ES_SERVERS=[
 	"localhost:9200",
 	]
 
-# TODO:
-# input buffering problem, fully drain stdin and process all keys
-# or else we get out of sync
-
 def type_boost(doctype, boost_factor):
 	return { "boost_factor": boost_factor, "filter": { "type": { "value": doctype } } }
 	
