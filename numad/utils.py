@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 """utils: useful functions that do not belong in other modules"""
 
+from asyncio import coroutine
+
 # This function is being moved to text11/waytext once the design of that
 # lib is finalised and intergrated here
+@coroutine
 def wait_for_fd(fd, *, loop=None):
 	"""Given a file descriptor, block on it until we have input to read"""
 	if hasattr(fd, 'fileno'):
