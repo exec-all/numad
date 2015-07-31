@@ -5,6 +5,7 @@ from asyncio import coroutine, Task
 from aioes import Elasticsearch
 from blessed import Terminal
 from time import sleep
+from .utils import wait_for_fd
 import asyncio
 import sys
 import os
@@ -18,19 +19,6 @@ ES_SERVERS=[
 # TODO:
 # input buffering problem, fully drain stdin and process all keys
 # or else we get out of sync
-
-def wait_for_fd(fd, *, loop=None):
-	"""Given a file descriptor, block on it until we have input to read"""
-	if hasattr(fd, 'fileno'):
-		fd = fd.fileno()
-
-	if not loop:
-		loop = asyncio.get_event_loop()
-
-	waiter = asyncio.Future(loop=loop)
-	loop.add_reader(fd, lambda : waiter.set_result(None))	
-	yield from waiter
-	loop.remove_reader(fd)
 
 def type_boost(doctype, boost_factor):
 	return { "boost_factor": boost_factor, "filter": { "type": { "value": doctype } } }
