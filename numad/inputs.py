@@ -23,7 +23,7 @@ def search_loop(loop, es, question):
 					# This is a dummy boost, as ES complains if there are no functions to run.
 					{ "boost_factor": 1.0 },
 					type_boost('provsys', 3.0),
-					{ "boost_factor": 2.5, "filter": { "query": { "query_string": { "query": "url:\"redacted" } } } },
+					{ "boost_factor": 2.5, "filter": { "query": { "query_string": { "query": 'url:"Blah"' } } } },
 				],
 				"query": {
 					"query_string": {
