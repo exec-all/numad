@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """utils: useful functions that do not belong in other modules"""
 
-from asyncio import coroutine
+from asyncio import coroutine, Future, get_event_loop
 
 # This function is being moved to text11/waytext once the design of that
 # lib is finalised and intergrated here
@@ -12,9 +12,9 @@ def wait_for_fd(fd, *, loop=None):
 		fd = fd.fileno()
 	
 	if not loop:
-		loop = asyncio.get_event_loop()
+		loop = get_event_loop()
 	
-	waiter = asyncio.Future(loop=loop)
+	waiter = Future(loop=loop)
 	loop.add_reader(fd, lambda : waiter.set_result(None))
 	yield from waiter
 	loop.remove_reader(fd)
