@@ -170,5 +170,5 @@ pypi:
 push:
 	git push origin master
 
-push:
+pull:
 	git pull
