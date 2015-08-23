@@ -163,6 +163,12 @@ install:
 
 develop:
 	$(PYTHON) ./setup.py develop
-	
+
 pypi:
 	$(PYTHON) ./setup.py sdist --formats=zip,bztar upload
+
+push:
+	git push origin master
+
+push:
+	git pull
